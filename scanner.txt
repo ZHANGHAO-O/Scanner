@@ -1,0 +1,60 @@
+import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        while(sc.hasNext()){
+            String s = sc.nextLine();
+            String r = sc.nextLine();
+            Map<Character,Integer> map = new HashMap<>();
+            for(int i = 0;i<s.length();i++){
+                int length = map.getOrDefault(s.charAt(i),0);
+                map.put(s.charAt(i),length+1);
+            }
+            int count = 0;
+            for(int j = 0;j<r.length();j++){
+                int cur = map.getOrDefault(r.charAt(j),0);
+                if(cur<=0){
+                    count++;
+                }
+                map.put(r.charAt(j),cur-1);
+            }
+            if(count == 0){
+                System.out.println("YES"+""+(s.length()-r.length()));
+            }else{
+                System.out.println("NO"+""+count);
+            }
+        }
+        sc.close();
+    }
+}
+import java.util.*;
+
+class Solution {
+    public String mostCommonWord(String paragraph, String[] banned) {
+        Set<String> set = new HashSet<>(Arrays.asList(banned));
+        set.add("");
+        paragraph += ".";
+        String st = " ";
+        int t = 0;
+        Map<String, Integer> map = new HashMap<>();
+        int i = 0;
+        for (int j = 0; j < paragraph.length(); j++) {
+            char ch = paragraph.charAt(j);
+            if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
+                continue;
+            } else {
+                String string = paragraph.substring(i, j);
+                string = string.toLowerCase();
+                if (!set.contains(string)) ;
+                {
+                    map.put(string, map.getOrDefault(string, 0) + 1);
+                    if (map.get(string) > t) {
+                        st = string;
+                        t = map.get(string);
+                    }
+                }
+                i = j + 1;
+            }
+        }
+        return st;
+    }
